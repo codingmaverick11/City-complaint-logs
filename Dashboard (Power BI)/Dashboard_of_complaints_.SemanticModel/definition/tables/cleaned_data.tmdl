@@ -1,0 +1,129 @@
+table cleaned_data
+	lineageTag: 6bb205f1-ca87-44a5-ae3e-2ec0ec116a62
+
+	column _id
+		dataType: int64
+		formatString: 0
+		lineageTag: 141152bf-c7c6-46be-92e9-5a3f639d2fe8
+		summarizeBy: sum
+		sourceColumn: _id
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c85c2781-ebc9-4000-b338-b3850197a9d5
+		summarizeBy: none
+		sourceColumn: created_at
+
+		variation Variation
+			isDefault
+			relationship: be959df6-a7bb-4a6e-9470-c51b0efdd0fd
+			defaultHierarchy: LocalDateTable_f29b3bf0-df68-4709-9f99-e4a21f61d85a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ward_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 2c525503-fc99-44ec-8f1a-48451fc581c2
+		summarizeBy: sum
+		sourceColumn: ward_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_category_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 54dc3ef7-2161-489d-bfa1-91277f9624b7
+		summarizeBy: sum
+		sourceColumn: sub_category_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column civic_agency_id
+		dataType: int64
+		formatString: 0
+		lineageTag: cd23f7d1-c9b6-4c91-b4ce-c27bd257ad4b
+		summarizeBy: sum
+		sourceColumn: civic_agency_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ward_title
+		dataType: string
+		lineageTag: 2090313f-3bc6-4905-9a7f-665ee90f0977
+		summarizeBy: none
+		sourceColumn: ward_title
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b99c06a0-005c-4db7-b6a8-23a937c0a76c
+		summarizeBy: sum
+		sourceColumn: category_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_categories
+		dataType: string
+		lineageTag: 999e8ae7-e048-41e6-bc8a-d59d70f1ebef
+		summarizeBy: none
+		sourceColumn: total_categories
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_category_title
+		dataType: string
+		lineageTag: 52caaf10-eb7f-4c57-8296-8bb9c2b7349b
+		summarizeBy: none
+		sourceColumn: sub_category_title
+
+		annotation SummarizationSetBy = Automatic
+
+	column civic_agency_title
+		dataType: string
+		lineageTag: 3749d891-ebaa-4ac2-a38d-ad8fc19f056e
+		summarizeBy: none
+		sourceColumn: civic_agency_title
+
+		annotation SummarizationSetBy = Automatic
+
+	column complaint_status_title
+		dataType: string
+		lineageTag: f80b284f-1125-42f7-bc7f-99e3a98f0c3f
+		summarizeBy: none
+		sourceColumn: complaint_status_title
+
+		annotation SummarizationSetBy = Automatic
+
+	column comment_count
+		dataType: int64
+		formatString: 0
+		lineageTag: af59fad5-0c01-45e8-ae52-a82eb5682a4d
+		summarizeBy: sum
+		sourceColumn: comment_count
+
+		annotation SummarizationSetBy = Automatic
+
+	partition cleaned_data = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\anant\OneDrive\Desktop\Assignment 1\cleaned_data.csv"), [Delimiter = ",", Columns = 12, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"_id", Int64.Type}, {"created_at", type datetime}, {"ward_id", Int64.Type}, {"sub_category_id", Int64.Type}, {"civic_agency_id", Int64.Type}, {"ward_title", type text}, {"category_id", Int64.Type}, {"category_title", type text}, {"sub_category_title", type text}, {"civic_agency_title", type text}, {"complaint_status_title", type text}, {"comment_count", Int64.Type}}, "en-US"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Changed column type",{{"created_at", type date}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"category_title", "total_categories"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

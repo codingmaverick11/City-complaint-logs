@@ -1,0 +1,42 @@
+table top_complaints
+	lineageTag: 7f5bb93e-c3a8-4680-adf8-9edb0151be0c
+
+	column 'Category ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2dd1cc3b-c161-4db9-ab6c-380d8b3a48dc
+		summarizeBy: sum
+		sourceColumn: Category ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Category title'
+		dataType: string
+		lineageTag: 0fefd993-333c-49ee-91a1-74eb2bb26ecf
+		summarizeBy: none
+		sourceColumn: Category title
+
+		annotation SummarizationSetBy = Automatic
+
+	column Complaints
+		dataType: int64
+		formatString: 0
+		lineageTag: 5280b302-7d2c-4b55-8d4a-ca52de4902a5
+		summarizeBy: sum
+		sourceColumn: Complaints
+
+		annotation SummarizationSetBy = Automatic
+
+	partition top_complaints = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\anant\OneDrive\Desktop\Assignment 1\top_complaints.csv"), [Delimiter = ",", Columns = 3, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"category_id", Int64.Type}, {"category_title", type text}, {"count_of_complaints", Int64.Type}}, "en-US"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed column type",{{"category_title", "Category title"}, {"count_of_complaints", "Complaints"}, {"category_id", "Category ID"}})
+				in
+				  #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

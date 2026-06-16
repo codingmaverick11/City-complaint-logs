@@ -1,0 +1,45 @@
+table Measure
+	lineageTag: db22be90-89da-4570-85ad-f9c50696f234
+
+	measure 'Total Complaints' = COUNT(cleaned_data[_id])
+		formatString: 0
+		lineageTag: 34750fb7-131c-411b-9a66-6e554d96da64
+
+	measure 'Total Categories' = DISTINCTCOUNT(cleaned_data[total_categories])
+		formatString: 0
+		lineageTag: 89ac9ba4-e4d0-4645-82fe-7fff8db8dc15
+
+	measure 'Total Wards' = DISTINCTCOUNT(cleaned_data[ward_title])
+		formatString: 0
+		lineageTag: 9e254e16-35e5-48e3-997b-0521a09259fe
+
+	measure 'Total Civic Agencies' = DISTINCTCOUNT(cleaned_data[civic_agency_title])
+		formatString: 0
+		lineageTag: a71f6c11-c49a-4484-bee0-b9bf249d5e6c
+
+	measure 'Complaint %' =
+			
+			DIVIDE(
+			    [Total Complaints],
+			    CALCULATE([Total Complaints], ALL(cleaned_data[_id]))
+			)
+		lineageTag: 73c6c6c9-736e-40fe-bd5a-bcd9716f7622
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Value
+		isHidden
+		formatString: 0
+		lineageTag: 065e23bf-bfba-481e-9d85-cdccb2305437
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = calculated
+		mode: import
+		source = {0}
+
+	annotation PBI_Id = a5312e27cb224f4e9cbf26237b6d4ef7
+

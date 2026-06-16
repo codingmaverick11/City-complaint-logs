@@ -1,0 +1,24 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["cleaned_data","top_complaints","top_wards_complaints","civic_agency_workload"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table cleaned_data
+ref table DateTableTemplate_6de423c5-58f5-4f17-81ca-6368b8d4e73c
+ref table LocalDateTable_f29b3bf0-df68-4709-9f99-e4a21f61d85a
+ref table top_complaints
+ref table Measure
+ref table top_wards_complaints
+ref table civic_agency_workload
+
+ref cultureInfo en-IN
+

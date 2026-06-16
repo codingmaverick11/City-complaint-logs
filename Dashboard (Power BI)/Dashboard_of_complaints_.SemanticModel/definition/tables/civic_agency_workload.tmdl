@@ -1,0 +1,39 @@
+table civic_agency_workload
+	lineageTag: 2c4c0592-1fea-41a4-904c-cadc46209a66
+
+	column civic_agency_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d663dc05-517c-4dcd-94c0-631ab607233f
+		summarizeBy: sum
+		sourceColumn: civic_agency_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column civic_agency_title
+		dataType: string
+		lineageTag: 857ea219-aa40-4f80-8ebb-037c3fbffa7c
+		summarizeBy: none
+		sourceColumn: civic_agency_title
+
+		annotation SummarizationSetBy = Automatic
+
+	column total
+		dataType: int64
+		formatString: 0
+		lineageTag: eb2b8545-afbb-40be-b7e1-5d80af77491c
+		summarizeBy: sum
+		sourceColumn: total
+
+		annotation SummarizationSetBy = Automatic
+
+	partition civic_agency_workload = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\anant\OneDrive\Desktop\Assignment 1\civic_agency_workload.csv"), [Delimiter = ",", Columns = 3, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"civic_agency_id", Int64.Type}, {"civic_agency_title", type text}, {"total", Int64.Type}}, "en-US")
+				in
+				  #"Changed column type"
+

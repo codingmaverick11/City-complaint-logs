@@ -1,0 +1,107 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "a2192feacbd7bcc06867",
+  "position": {
+    "x": 563.04834210450633,
+    "y": 424.05314468121816,
+    "z": 2000,
+    "height": 274.45661864089953,
+    "width": 686.73050930319494,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "pieChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "cleaned_data"
+                    }
+                  },
+                  "Property": "complaint_status_title"
+                }
+              },
+              "queryRef": "cleaned_data.complaint_status_title",
+              "nativeQueryRef": "complaint_status_title",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Total Complaints"
+                }
+              },
+              "queryRef": "Measure.Total Complaints",
+              "nativeQueryRef": "Total Complaints"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Measure"
+                  }
+                },
+                "Property": "Total Complaints"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b825037671aa090b31a9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Total Complaints"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f39c550a76d9623e1078",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "cleaned_data"
+              }
+            },
+            "Property": "complaint_status_title"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}
